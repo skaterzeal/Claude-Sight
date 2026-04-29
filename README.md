@@ -68,9 +68,9 @@ Claude Sight wraps the official **Claude Code CLI** in a frameless, themeable El
 |:---:|:---:|:---:|
 | ![Welcome](docs/screenshots/welcome.png) | ![Chat](docs/screenshots/chat.png) | ![Split](docs/screenshots/split.png) |
 
-| Command Palette | Diff Review | Settings |
-|:---:|:---:|:---:|
-| ![Palette](docs/screenshots/palette.png) | ![Diff](docs/screenshots/diff.png) | ![Settings](docs/screenshots/settings.png) |
+| Command Palette | Settings |
+|:---:|:---:|
+| ![Palette](docs/screenshots/palette.png) | ![Settings](docs/screenshots/settings.png) |
 
 ---
 
