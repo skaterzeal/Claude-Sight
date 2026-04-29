@@ -1,0 +1,87 @@
+{
+  "name": "claude-sight",
+  "version": "0.1.0",
+  "description": "A visual, animated command center for the Claude Code CLI — chat, file tree, skills, and a living mascot companion.",
+  "author": "Karmagen",
+  "license": "MIT",
+  "main": "electron/main.cjs",
+  "type": "module",
+  "homepage": "https://github.com/skaterzeal/claude-sight#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skaterzeal/claude-sight.git"
+  },
+  "bugs": {
+    "url": "https://github.com/skaterzeal/claude-sight/issues"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "anthropic",
+    "ai",
+    "chat",
+    "electron",
+    "desktop-app",
+    "mcp",
+    "skills",
+    "developer-tools"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n vite,electron -c blue,magenta \"npm:dev:vite\" \"npm:dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "wait-on tcp:5173 && cross-env NODE_ENV=development electron .",
+    "build": "vite build",
+    "start": "npm run build && electron .",
+    "package": "npm run build && electron-builder",
+    "rebuild": "electron-rebuild -f -w node-pty || echo \"node-pty rebuild skipped (optional native module)\""
+  },
+  "build": {
+    "appId": "dev.karmagen.claudesight",
+    "productName": "Claude Sight",
+    "files": [
+      "electron/**",
+      "dist/**",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "build/icon.png"
+    }
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.6",
+    "framer-motion": "^11.11.17",
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-syntax-highlighter": "^16.1.1",
+    "zustand": "^5.0.2"
+  },
+  "optionalDependencies": {
+    "node-pty": "^1.1.0"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.4",
+    "@vitejs/plugin-react": "^5.1.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "^41.3.0",
+    "electron-builder": "^26.8.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^8.0.10",
+    "wait-on": "^8.0.1"
+  }
+}

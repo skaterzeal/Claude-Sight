@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================================
+   THEMES — swap values via `.theme-*` on <html>.
+   All Tailwind color tokens (ink-*, cyan-glow, claude-amber, accent, …)
+   read these variables, so every surface re-skins automatically.
+   ===================================================================== */
+
+:root, html.theme-jarvis {
+  color-scheme: dark;
+
+  --surface-0: 5 7 13;      /* body */
+  --surface-1: 10 15 26;    /* panel */
+  --surface-2: 15 22 38;    /* card / input */
+  --surface-3: 22 32 56;    /* hover */
+  --surface-4: 30 42 74;    /* strong border */
+
+  --accent: 62 224 255;       /* cyan-glow */
+  --accent-soft: 139 240 255; /* cyan-soft */
+  --accent-2: 232 155 74;     /* claude-amber */
+  --accent-2-soft: 244 177 131;
+  --coral: 217 119 87;
+
+  --text-primary: 241 245 249;
+  --text-muted: 148 163 184;
+
+  --border: 62 224 255 / 0.12;
+  --grid: 62 224 255 / 0.035;
+  --glow-1: 62 224 255;
+  --glow-2: 232 155 74;
+
+  --font-display: 'Space Grotesk';
+}
+
+html.theme-pink {
+  color-scheme: dark;
+
+  --surface-0: 28 10 22;    /* deep plum */
+  --surface-1: 44 17 34;
+  --surface-2: 60 24 48;
+  --surface-3: 78 34 64;
+  --surface-4: 100 48 82;
+
+  --accent: 244 114 182;       /* pink-400 */
+  --accent-soft: 249 168 212;  /* pink-300 */
+  --accent-2: 251 207 232;     /* pink-200 */
+  --accent-2-soft: 252 231 243;
+  --coral: 225 29 72;          /* rose-600 */
+
+  --text-primary: 253 242 248;
+  --text-muted: 228 182 210;
+
+  --border: 244 114 182 / 0.15;
+  --grid: 244 114 182 / 0.05;
+  --glow-1: 244 114 182;
+  --glow-2: 251 207 232;
+
+  --font-display: 'Space Grotesk';
+}
+
+html.theme-macos {
+  color-scheme: light;
+
+  --surface-0: 242 242 247;    /* systemGroupedBackground */
+  --surface-1: 255 255 255;    /* secondarySystemBackground */
+  --surface-2: 249 249 251;
+  --surface-3: 239 239 244;
+  --surface-4: 210 210 215;
+
+  --accent: 10 132 255;        /* SF system blue */
+  --accent-soft: 100 170 255;
+  --accent-2: 255 149 0;       /* SF orange */
+  --accent-2-soft: 255 204 0;
+  --coral: 255 59 48;          /* SF red */
+
+  --text-primary: 28 28 30;
+  --text-muted: 99 99 102;
+
+  --border: 0 0 0 / 0.1;
+  --grid: 10 132 255 / 0.04;
+  --glow-1: 10 132 255;
+  --glow-2: 100 170 255;
+
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue';
+}
+
+/* =====================================================================
+   Layout basics
+   ===================================================================== */
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-display), system-ui, sans-serif;
+  color: rgb(var(--text-primary));
+  background:
+    radial-gradient(ellipse at top, rgb(var(--glow-1) / 0.1), transparent 60%),
+    radial-gradient(ellipse at bottom, rgb(var(--glow-2) / 0.08), transparent 60%),
+    rgb(var(--surface-0));
+  transition: background-color 0.25s, color 0.25s;
+}
+
+/* Subtle grid texture overlay (hidden in macOS theme) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(var(--grid)) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--grid)) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black, transparent 75%);
+  z-index: 0;
+}
+html.theme-macos body::before { opacity: 0; }
+
+/* Scrollbars */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: rgb(var(--surface-4)); border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background: rgb(var(--surface-4) / 0.9); }
+
+/* Selection */
+::selection { background: rgb(var(--accent) / 0.35); color: rgb(var(--text-primary)); }
+
+/* Code blocks inside chat */
+.chat-code pre {
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  background: rgb(var(--surface-0) / 0.7) !important;
+  border: 1px solid rgb(var(--border));
+  border-radius: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  overflow-x: auto;
+}
+.chat-code code { font-family: 'JetBrains Mono', monospace; }
+
+/* Drag region for frameless window (macOS) */
+.app-drag { -webkit-app-region: drag; }
+.app-drag * { -webkit-app-region: no-drag; }
+
+/* =====================================================================
+   Theme-specific polish
+   ===================================================================== */
+
+/* macOS light mode — Tailwind `slate-*` text classes were picked for dark
+   backgrounds. Flip the most-used ones so text stays readable on white. */
+html.theme-macos .text-slate-100 { color: #1d1d1f !important; }
+html.theme-macos .text-slate-200 { color: #2c2c2e !important; }
+html.theme-macos .text-slate-300 { color: #3a3a3c !important; }
+html.theme-macos .text-slate-400 { color: #636366 !important; }
+html.theme-macos .text-slate-500 { color: #8e8e93 !important; }
+
+/* Softer shadows + rounder corners in the macOS theme */
+html.theme-macos .shadow-glow-cyan,
+html.theme-macos .shadow-glow-amber,
+html.theme-macos .shadow-glow-accent {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08), 0 8px 24px rgb(0 0 0 / 0.08) !important;
+}
+
+html.theme-macos [class*="rounded-2xl"] { border-radius: 14px; }
+html.theme-macos [class*="rounded-xl"]  { border-radius: 12px; }
+html.theme-macos [class*="rounded-lg"]  { border-radius: 10px; }
+
+/* macOS backdrop: opaque cards instead of the translucent glass */
+html.theme-macos aside,
+html.theme-macos main {
+  backdrop-filter: none !important;
+}
+
+/* Line clamp helpers (used in SkillCard description) */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* =====================================================================
+   Mascot animations
+   ===================================================================== */
+
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes mascot-orbit {
+  0% { transform: rotate(0deg) translateX(42px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(42px) rotate(-360deg); }
+}
+
+@keyframes mascot-code-rain {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes mascot-shockwave {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes mascot-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.15); }
+}
+
+@keyframes mascot-pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes mascot-typing-left {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-12deg); }
+}
+
+@keyframes mascot-typing-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(12deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Global focus helper for the mascot */
+body.mascot-focus .mascot-ear-glow {
+  filter: drop-shadow(0 0 6px rgb(var(--accent)));
+}
